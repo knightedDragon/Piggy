@@ -24,7 +24,6 @@ public class PigGameState {
     }
 
 
-
     /**
      * Various getters and setters for instance variables
      *
