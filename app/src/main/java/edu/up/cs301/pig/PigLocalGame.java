@@ -94,7 +94,7 @@ public class PigLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         PigGameState pigCopy = new PigGameState(piggy);
-        //p.sendInfo(pigCopy);
+        p.sendInfo(piggy);
         //TODO: Figure out the sendInfo method yuck
     }//sendUpdatedSate
 
@@ -110,7 +110,6 @@ public class PigLocalGame extends LocalGame {
         String name;
         if (piggy.getP1Score() >= 50) {
             name = this.playerNames[0];
-            //TODO: Find out their name
             return (name +" won with a score of " + piggy.getP1Score());
         } else if (piggy.getP2Score() >= 50) {
             name = this.playerNames[1];
