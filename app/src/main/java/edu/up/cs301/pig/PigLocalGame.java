@@ -3,6 +3,7 @@ package edu.up.cs301.pig;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
+import edu.up.cs301.game.infoMsg.BindGameInfo;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.GameState;
 
@@ -44,31 +45,40 @@ public class PigLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+        boolean multiplayer = (this.players.length > 1);
+
         if (action instanceof PigHoldAction) {
             switch (piggy.getId()) {
                 case 0:
                     piggy.setP1Score(piggy.getP1Score() + piggy.getRunTotal());
-                    piggy.setId(1); //TODO: Check for num of players
+                    if (multiplayer) {
+                    piggy.setId(1);
+                    }
                     break;
                 case 1:
                     piggy.setP2Score(piggy.getP2Score() + piggy.getRunTotal());
-                    piggy.setId(0); //TODO: Check for num of players
+                    if (multiplayer) {
+                        piggy.setId(0);
+                    }
                     break;
             }
             piggy.setRunTotal(0);
             return true;
+
         } else if (action instanceof PigRollAction) {
             Random rand = new Random();
             piggy.setCurrVal(rand.nextInt(6) + 1);
             if (piggy.getCurrVal() == 1) {
                 piggy.setRunTotal(0);
-                switch (piggy.getId()) { //TODO: Check for num of players
-                    case 0:
-                        piggy.setId(1);
-                        break;
-                    case 1:
-                        piggy.setId(0);
-                        break;
+                if (multiplayer) {
+                    switch (piggy.getId()) {
+                        case 0:
+                            piggy.setId(1);
+                            break;
+                        case 1:
+                            piggy.setId(0);
+                            break;
+                    }
                 }
             } else { //If the die val isn't 1, add it to the running total
                 piggy.setRunTotal(piggy.getRunTotal() + piggy.getCurrVal());
@@ -84,7 +94,6 @@ public class PigLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         PigGameState pigCopy = new PigGameState(piggy);
-
         //p.sendInfo(pigCopy);
         //TODO: Figure out the sendInfo method yuck
     }//sendUpdatedSate
@@ -98,14 +107,15 @@ public class PigLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        String name;
         if (piggy.getP1Score() >= 50) {
+            name = this.playerNames[0];
             //TODO: Find out their name
-            return "Yay p1 won w score of " + piggy.getP1Score();
+            return (name +" won with a score of " + piggy.getP1Score());
         } else if (piggy.getP2Score() >= 50) {
-            //TODO: Find out their name
-            return "Yay p2 won w score of " + piggy.getP2Score();
+            name = this.playerNames[1];
+            return (name + " won with a score of " + piggy.getP2Score());
         }
-
         return null;
     }
 
