@@ -9,7 +9,7 @@ public class PigGameState {
     public PigGameState() {
         id = 0; //Whose turn is it
         p1Score = p2Score = runTotal = 0; //Scores and what would be added
-        currVal = 0; //Current value on the die
+        currVal = 1; //Current value on the die
     }
 
     /**

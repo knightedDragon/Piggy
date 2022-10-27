@@ -30,12 +30,23 @@ public class PigComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        PigGameState piggy = (PigGameState) info; //TODO: wtf
+        PigGameState piggy = new PigGameState((PigGameState) info);
+        //TODO: Why won't that work >:(
+
+        if (piggy.getId() != this.playerNum) {
+            return;
+        }
+
+        this.sleep(1000);
 
         int randy = new Random().nextInt(10);
         if (randy >= 4) {
+            PigHoldAction holding = new PigHoldAction(this);
+            game.sendAction(holding);
             //pigholdaction
         } else {
+            PigRollAction rolling = new PigRollAction(this);
+            game.sendAction(rolling);
             //pigrollaction
         }
 
