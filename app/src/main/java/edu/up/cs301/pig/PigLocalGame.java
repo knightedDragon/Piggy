@@ -95,7 +95,6 @@ public class PigLocalGame extends LocalGame {
     protected void sendUpdatedStateTo(GamePlayer p) {
         PigGameState pigCopy = new PigGameState(piggy);
         p.sendInfo(pigCopy);
-        //TODO: Why won't that work >:(
     }//sendUpdatedSate
 
     /**
